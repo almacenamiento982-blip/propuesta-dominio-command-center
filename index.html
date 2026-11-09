@@ -1,0 +1,358 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Command Center Soccer Cage</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wght@500;700;800&family=Source+Sans+3:wght@400;600;700&display=swap">
+<style>
+:root{
+  --fondo:#f4f5f2; --papel:#ffffff; --tinta:#141821; --suave:#5b6170; --linea:#dfe2dc;
+  --lima:#b7f34a; --lima-tinta:#3d5a07; --lima-suave:#eef8d9; --aviso:#8a5a00; --aviso-suave:#fbf1dc;
+  --fuente:'Source Sans 3',system-ui,-apple-system,'Segoe UI',sans-serif; --titulo:'Archivo','Arial Narrow',system-ui,sans-serif;
+}
+@media (prefers-color-scheme:dark){:root:not([data-theme="light"]){
+  --fondo:#0f1217; --papel:#171b22; --tinta:#eef0ea; --suave:#a3a9b5; --linea:#2a303a;
+  --lima-tinta:#b7f34a; --lima-suave:#1f2a12; --aviso:#f0c46a; --aviso-suave:#2b2414;}}
+:root[data-theme="dark"]{
+  --fondo:#0f1217; --papel:#171b22; --tinta:#eef0ea; --suave:#a3a9b5; --linea:#2a303a;
+  --lima-tinta:#b7f34a; --lima-suave:#1f2a12; --aviso:#f0c46a; --aviso-suave:#2b2414;}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--fondo);color:var(--tinta);font:17px/1.55 var(--fuente);padding-inline:16px}
+main{max-width:920px;margin:0 auto;padding-block:40px 64px}
+h1,h2,h3{font-family:var(--titulo);line-height:1.15;text-wrap:balance;margin:0}
+h1{font-size:clamp(30px,5vw,46px);font-weight:800;letter-spacing:-.01em}
+h2{font-size:clamp(22px,3vw,28px);font-weight:700;margin-bottom:14px}
+h3{font-size:18px;font-weight:700}
+p{margin:0 0 12px;max-width:68ch}
+.eyebrow{font:700 12px/1 var(--titulo);letter-spacing:.14em;text-transform:uppercase;color:var(--suave)}
+.portada{display:grid;gap:14px;padding-bottom:28px;border-bottom:1px solid var(--linea)}
+.portada .bajada{font-size:19px;color:var(--suave);max-width:60ch}
+.sello{display:inline-flex;align-items:center;gap:10px;font:700 14px var(--titulo)}
+.sello b{display:grid;place-items:center;width:34px;height:34px;border-radius:8px;background:var(--lima);color:#101318;font-size:14px}
+section{padding-block:30px;border-bottom:1px solid var(--linea)}
+section:last-of-type{border-bottom:0}
+.dos{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr));gap:16px}
+.caja{background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:18px 20px}
+.caja h3{margin-bottom:8px}
+.caja p:last-child,.caja ul:last-child{margin-bottom:0}
+ul{margin:0 0 12px;padding-left:20px}
+li{margin:4px 0}
+.url{font-family:ui-monospace,'Cascadia Mono',Consolas,monospace;font-size:.92em;background:var(--lima-suave);color:var(--lima-tinta);padding:1px 6px;border-radius:5px;white-space:nowrap}
+.tabla{overflow-x:auto;margin:6px 0 10px;border:1px solid var(--linea);border-radius:12px;background:var(--papel)}
+table{border-collapse:collapse;width:100%;min-width:560px;font-size:15.5px}
+th,td{text-align:left;padding:11px 14px;border-bottom:1px solid var(--linea);vertical-align:top}
+th{font:700 12px var(--titulo);letter-spacing:.08em;text-transform:uppercase;color:var(--suave);background:transparent}
+tr:last-child td{border-bottom:0}
+td.num{font-variant-numeric:tabular-nums;white-space:nowrap;font-weight:600}
+.libre{color:var(--lima-tinta);font-weight:700}
+.ocupado{color:var(--suave)}
+.destacada td{background:var(--lima-suave)}
+.nota{font-size:14.5px;color:var(--suave)}
+.escenarios{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:14px}
+.esc{background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:18px;display:flex;flex-direction:column;gap:8px}
+.esc.base{border-color:var(--lima-tinta)}
+.esc .precio{font:800 30px/1 var(--titulo);font-variant-numeric:tabular-nums;white-space:nowrap}
+.esc .precio small{display:block;margin-top:6px;font:600 14px var(--fuente);color:var(--suave)}
+.esc ul{font-size:15px;margin:0}
+.esc .resuelve{font-weight:700;margin:2px 0 0}
+.esc .queda{font-size:14.5px;color:var(--suave);margin:auto 0 0;padding-top:10px;border-top:1px solid var(--linea)}
+.matriz td:not(:first-child),.matriz th:not(:first-child){text-align:center}
+.matriz tr.total td{font-weight:700;background:var(--lima-suave)}
+.cifras{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,190px),1fr));gap:12px;margin-top:6px}
+.cifras>div{background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:14px 16px;display:flex;flex-direction:column;gap:6px}
+.cifras>div:last-child{border-color:var(--lima-tinta);background:var(--lima-suave)}
+.cifras strong{font:800 26px/1 var(--titulo);font-variant-numeric:tabular-nums}
+.cifras small{font:500 13.5px/1.4 var(--fuente);color:var(--suave)}
+.beneficios{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,380px),1fr));gap:14px}
+.ben{background:var(--papel);border:1px solid var(--linea);border-radius:12px;padding:18px 20px;display:flex;flex-direction:column;gap:8px}
+.ben p{margin:0;font-size:16px}
+.ben .pieza{margin-top:auto;padding-top:6px;font:700 11.5px var(--titulo);letter-spacing:.08em;text-transform:uppercase;color:var(--lima-tinta)}
+.inversion td:not(:first-child),.inversion th:not(:first-child){text-align:right}
+.inversion tr.total td{font-weight:800;background:var(--lima-suave);font-size:17px}
+.destacada-caja{margin-top:16px;border-color:var(--lima-tinta)}
+.aviso{background:var(--aviso-suave);border-radius:12px;padding:14px 18px;color:var(--tinta)}
+.aviso strong{color:var(--aviso)}
+ol.pasos{padding-left:22px;margin:0}
+ol.pasos li{margin:8px 0}
+.fuentes{font-size:14.5px}
+.fuentes li{margin:6px 0;word-break:break-word}
+a{color:inherit;text-decoration-color:var(--lima-tinta);text-underline-offset:2px}
+a:focus-visible{outline:2px solid var(--lima-tinta);outline-offset:2px}
+@media print{body{background:#fff}section{break-inside:avoid}}
+</style>
+</head>
+<body>
+<main>
+
+<header class="portada">
+  <span class="sello"><b>SC</b>Soccer Cage LLC · Command Center</span>
+  <span class="eyebrow">Propuesta · noviembre 2026</span>
+  <h1>Command Center como plataforma central de Soccer Cage</h1>
+  <p class="bajada">Dominio propio, entrada segura, base de datos central, automatizaciones, servidor y correo corporativo, para que el Command Center pase de ser el tablero de marketing a ser el punto de control de toda la operación.</p>
+  <div class="cifras">
+    <div><span class="eyebrow">Primer pago</span><strong>US$90.26</strong><small>Primera mensualidad (US$79.80) + el dominio por todo el año (US$10.46)</small></div>
+    <div><span class="eyebrow">Pago mensual</span><strong>US$79.80</strong><small>Desde el segundo mes. El dominio se renueva una vez al año</small></div>
+    <div><span class="eyebrow">Presupuesto mensual</span><strong>US$100</strong><small>La mensualidad más un margen para crecer sin volver a pedir aprobación</small></div>
+  </div>
+</header>
+
+<section>
+  <h2>Hacia dónde va</h2>
+  <p>La idea es entrar a un solo lugar, con el correo de cada persona, y ver solo los módulos que le corresponden. Dos de esos módulos ya existen por separado y hoy viven en sitios distintos:</p>
+  <div class="dos">
+    <div class="caja">
+      <h3>Marketing · funcionando</h3>
+      <ul>
+        <li>Command Center con informes por negocio, pagos, Meta Ads, Instagram, email y SMS.</li>
+        <li>Formularios propios (JTE 2027, pagos del staff) con su sección de respuestas.</li>
+        <li>Automatizaciones en Google Apps Script.</li>
+      </ul>
+    </div>
+    <div class="caja">
+      <h3>Inventario y tiendas · en construcción</h3>
+      <ul>
+        <li>Tres tiendas (Camps, Athletum, Las Vegas) sobre un solo inventario.</li>
+        <li>Compras, entregas sin venta, kits por talla, impuesto y envíos con EasyPost.</li>
+        <li>Sincronización con PlayMetrics funcionando: 545 jugadores en Entregas, cada hora.</li>
+      </ul>
+    </div>
+  </div>
+  <div class="tabla" style="margin-top:16px">
+    <table>
+      <thead><tr><th>Persona (ejemplo)</th><th>Ve en el Command Center</th></tr></thead>
+      <tbody>
+        <tr><td>Dirección (Alessandro, Christian)</td><td>Todo: marketing, inventario, ventas, formularios y staff.</td></tr>
+        <tr><td>Marketing (David)</td><td>Marketing, formularios y diseño de tiendas.</td></tr>
+        <tr><td>Bodega (Eduardo)</td><td>Inventario, compras, pedidos, envíos y entregas.</td></tr>
+        <tr><td>Futuros módulos</td><td>Finanzas y cobros (Stripe), inscritos por programa, staff y pagos de camps.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Situación actual</h2>
+  <div class="tabla">
+    <table>
+      <thead><tr><th>Pieza</th><th>Dónde está hoy</th><th>Límite</th></tr></thead>
+      <tbody>
+        <tr><td>Command Center</td><td><span class="url">soccercage-marketing.pages.dev</span> (Cloudflare, gratis)</td><td>Contraseña compartida; dirección sin marca; sin registro de entradas.</td></tr>
+        <tr><td>Automatizaciones de marketing</td><td>Google Apps Script en dos cuentas de Gmail</td><td>Google permite 90 minutos de ejecución automática al día por cuenta, y ya se usan entre 60 y 94. No hay espacio para crecer.</td></tr>
+        <tr><td>Inventario y tiendas</td><td>Supabase (plan gratuito) y GitHub Pages</td><td>El plan gratuito se pausa tras una semana sin uso (hoy lo mantiene despierto una tarea automática) y no tiene copias de seguridad.</td></tr>
+        <tr><td>Respuestas de formularios</td><td>Hojas y carpetas de Google Drive</td><td>Funciona, pero queda separado del resto de los datos.</td></tr>
+        <tr><td>Correos automáticos</td><td>Cuenta de Gmail genérica</td><td>Remitente sin marca; más riesgo de "no deseado".</td></tr>
+        <tr><td>Robots que necesitan navegador</td><td>El portátil de marketing</td><td>Solo corren con el portátil encendido.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>La propuesta</h2>
+  <p>Combina servicios administrados (cada uno hace una parte, se cobra por mes y no requiere mantener un sistema operativo) con un servidor virtual para los robots, los scripts y las automatizaciones que vienen.</p>
+  <div class="tabla">
+    <table>
+      <thead><tr><th>Pieza</th><th>Servicio</th><th>Para qué</th><th>Costo oficial</th></tr></thead>
+      <tbody>
+        <tr><td><strong>Dominio</strong></td><td>Cloudflare Registrar</td><td>soccercagegroup.com (soccercagestore.com ya es de la empresa)</td><td class="num">US$10.46 <span class="nota">una vez al año</span></td></tr>
+        <tr><td><strong>Páginas</strong></td><td>Cloudflare Pages</td><td>Command Center, formularios y tiendas</td><td class="num">US$0</td></tr>
+        <tr><td><strong>Entrada segura</strong></td><td>Cloudflare Access</td><td>Ingreso con Google o Microsoft, solo correos autorizados</td><td class="num">US$0 <span class="nota">hasta 50 usuarios</span></td></tr>
+        <tr><td><strong>Base de datos central</strong></td><td>Supabase Pro</td><td>Inventario, pedidos, respuestas de formularios, usuarios y permisos por módulo. Ya es la base del inventario</td><td class="num">US$25/mes</td></tr>
+        <tr><td><strong>Automatizaciones</strong></td><td>Cloudflare Workers Paid</td><td>Tareas programadas sin el tope de 90 minutos, envío de correos (3,000 al mes incluidos) y 10 horas al mes de navegador para robots</td><td class="num">US$5/mes</td></tr>
+        <tr><td><strong>Servidor virtual</strong></td><td>DigitalOcean 4 GB · 2 vCPU · Nueva York</td><td>Robots con sesión iniciada (app de registro, portal de Adidas), scripts en Python y nuevas automatizaciones</td><td class="num">US$28.80/mes <span class="nota">US$24 + copias semanales</span></td></tr>
+        <tr><td><strong>Correo corporativo</strong></td><td>Google Workspace Business Starter</td><td>3 buzones para escribir y responder desde @soccercagegroup.com</td><td class="num">US$21/mes <span class="nota">US$7 por persona</span></td></tr>
+        <tr><td><strong>Recepción de correos</strong></td><td>Cloudflare Email Routing</td><td>Direcciones como info@ o pedidos@ que llegan a los buzones existentes</td><td class="num">US$0</td></tr>
+        <tr><td><strong>Respaldos de largo plazo</strong></td><td>Cloudflare R2</td><td>Copia diaria de la base de datos guardada por meses</td><td class="num">US$0 <span class="nota">hasta 10 GB</span></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <h3 style="margin:22px 0 10px">Qué corre dónde</h3>
+  <div class="dos">
+    <div class="caja">
+      <h3>En Cloudflare Workers</h3>
+      <ul>
+        <li>Tareas programadas que hoy hace Apps Script: lectura de pagos, SMS y correos automáticos, actualización del Command Center, resultados a Meta y avisos.</li>
+        <li>Sincronización de PlayMetrics con el inventario.</li>
+        <li>Correos de confirmación desde el dominio.</li>
+      </ul>
+      <p class="nota">Estas automatizaciones ya están escritas en JavaScript, el mismo lenguaje de Workers, por lo que el traslado es directo. No hay tope diario ni mantenimiento, y si una tarea falla las demás siguen.</p>
+    </div>
+    <div class="caja">
+      <h3>En el servidor virtual</h3>
+      <ul>
+        <li>Robots que necesitan una sesión iniciada que se mantenga: la app de registro o el portal de pedidos de Adidas.</li>
+        <li>Scripts en Python que hoy corren en el portátil, como la revisión de comentarios de anuncios.</li>
+        <li>Procesos pesados o de larga duración, y las nuevas automatizaciones que no encajen en Workers.</li>
+      </ul>
+      <p class="nota">El navegador de Workers se abre y se cierra en cada tarea, y no es confiable para sitios que piden verificación al iniciar sesión.</p>
+    </div>
+  </div>
+  <p class="nota" style="margin-top:12px">Se reparte así para que lo crítico (la base de datos y las automatizaciones diarias) no dependa de un solo equipo: si el servidor tiene un problema, el Command Center, el inventario y las automatizaciones de Workers siguen funcionando.</p>
+</section>
+
+<section>
+  <h2>Direcciones</h2>
+  <p>Un solo dominio nuevo para la plataforma, más el de las tiendas, que la empresa ya tiene.</p>
+  <div class="dos">
+    <div class="caja">
+      <h3>soccercagegroup.com · nuevo</h3>
+      <p>Dominio paraguas de la empresa: Command Center, formularios, correos automáticos y buzones de dirección. "Group" refleja varias marcas bajo una misma empresa. Disponibilidad confirmada en el registro oficial (RDAP) el 8 de noviembre de 2026; soccercage.com pertenece a otra empresa (SoccerGround, fabricante de jaulas de fútbol).</p>
+    </div>
+    <div class="caja">
+      <h3>soccercagestore.com · ya es de la empresa</h3>
+      <p>Registrado desde 2018 y conectado a Cloudflare: ya muestra la plataforma de tiendas e inventario. No requiere compra; solo su renovación habitual.</p>
+    </div>
+  </div>
+  <div class="tabla" style="margin-top:16px">
+    <table>
+      <thead><tr><th>Dirección</th><th>Qué es</th><th>Quién entra</th></tr></thead>
+      <tbody>
+        <tr><td><span class="url">command.soccercagegroup.com</span></td><td>Command Center con todos los módulos</td><td>Solo correos autorizados, cada uno con los módulos de su rol.</td></tr>
+        <tr><td><span class="url">forms.soccercagegroup.com</span></td><td>Formularios JTE, staff y futuros</td><td>Abierto: familias y coaches, sin contraseña.</td></tr>
+        <tr><td><span class="url">soccercagestore.com</span></td><td>Tiendas de uniformes (Camps, Athletum, Las Vegas)</td><td>Abierto al público; el panel de inventario queda dentro del Command Center.</td></tr>
+        <tr><td><span class="url">soccercage-marketing.pages.dev</span></td><td>Dirección actual</td><td>Se cierra con el mismo control, para que no quede como entrada alterna.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section>
+  <h2>Beneficios</h2>
+  <div class="beneficios">
+    <div class="ben">
+      <h3>Control de toda la operación en un solo lugar</h3>
+      <p>Marketing, inventario, tiendas, formularios y, más adelante, finanzas e inscritos, en el mismo Command Center. Dirección ve todo y cada área ve lo suyo, sin cambiar de sistema ni pedir reportes por separado.</p>
+      <span class="pieza">Supabase Pro · Cloudflare Access</span>
+    </div>
+    <div class="ben">
+      <h3>Entrada personal en lugar de contraseña compartida</h3>
+      <p>Cada persona entra con su cuenta de Google o Microsoft y solo pasan los correos de la lista. Si alguien deja el equipo, se borra su correo y pierde el acceso al instante, sin cambiar nada para los demás. Queda registro de quién entró y cuándo.</p>
+      <span class="pieza">Cloudflare Access</span>
+    </div>
+    <div class="ben">
+      <h3>Datos centralizados y con copias de seguridad</h3>
+      <p>El inventario, los pedidos y las respuestas de formularios quedan en una sola base, en lugar de hojas sueltas y navegadores. Se hace copia diaria automática (7 días) y otra de largo plazo guardada por meses, de modo que un error o un borrado accidental se puede recuperar.</p>
+      <span class="pieza">Supabase Pro · Cloudflare R2</span>
+    </div>
+    <div class="ben">
+      <h3>Inventario siempre disponible</h3>
+      <p>La base del inventario deja de estar en un plan gratuito que se pausa tras una semana sin uso. Las tiendas y el panel de bodega quedan disponibles todo el año, también entre temporadas.</p>
+      <span class="pieza">Supabase Pro</span>
+    </div>
+    <div class="ben">
+      <h3>Automatizaciones sin techo</h3>
+      <p>Hoy las automatizaciones usan casi todo el tiempo diario que Google permite. Con Workers y el servidor desaparece ese límite y hay espacio para las automatizaciones que vienen: reportes que se actualizan solos, avisos, sincronizaciones con PlayMetrics, Meta y las tiendas.</p>
+      <span class="pieza">Cloudflare Workers · servidor</span>
+    </div>
+    <div class="ben">
+      <h3>La operación no depende de un portátil</h3>
+      <p>Los robots que hoy necesitan el portátil encendido (app de registro, scripts de revisión) pasan a un servidor en Nueva York que trabaja las 24 horas, con dirección de Estados Unidos y copias semanales.</p>
+      <span class="pieza">Servidor DigitalOcean</span>
+    </div>
+    <div class="ben">
+      <h3>Correos con marca que llegan a la bandeja principal</h3>
+      <p>Confirmaciones, pedidos y avisos salen desde el dominio de la empresa, con los registros de autenticación (SPF, DKIM y DMARC) que usan Gmail y Outlook para decidir si un correo es confiable. Las respuestas de las familias llegan al buzón que el equipo defina.</p>
+      <span class="pieza">Cloudflare Email Service · Email Routing</span>
+    </div>
+    <div class="ben">
+      <h3>Correo corporativo para dirección</h3>
+      <p>Tres buzones @soccercagegroup.com para escribir a socios, proveedores y familias con la identidad de la empresa, con 30 GB por persona, calendario y videollamadas incluidos.</p>
+      <span class="pieza">Google Workspace</span>
+    </div>
+    <div class="ben">
+      <h3>Propiedad de la empresa</h3>
+      <p>Dominios, cuentas y datos a nombre de Soccer Cage LLC, con tarjeta corporativa y renovación automática. No dependen de desarrolladores externos ni de cuentas personales, que es lo que hoy complica el acceso a algunos dominios.</p>
+      <span class="pieza">Todas las cuentas</span>
+    </div>
+    <div class="ben">
+      <h3>Lo que ya funciona sigue funcionando</h3>
+      <p>El Command Center, los formularios y las automatizaciones actuales no se apagan. Se trasladan por fases, empezando por las automatizaciones que están cerca del tope, sin interrumpir el trabajo diario.</p>
+      <span class="pieza">Migración gradual</span>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2>Inversión</h2>
+  <div class="tabla">
+    <table class="inversion">
+      <thead><tr><th>Concepto</th><th>Primer pago</th><th>Cada mes después</th></tr></thead>
+      <tbody>
+        <tr><td>Base de datos central (Supabase Pro)</td><td class="num">US$25.00</td><td class="num">US$25.00</td></tr>
+        <tr><td>Automatizaciones y correos (Cloudflare Workers Paid)</td><td class="num">US$5.00</td><td class="num">US$5.00</td></tr>
+        <tr><td>Servidor virtual con copias semanales (DigitalOcean)</td><td class="num">US$28.80</td><td class="num">US$28.80</td></tr>
+        <tr><td>3 buzones de correo corporativo (Google Workspace)</td><td class="num">US$21.00</td><td class="num">US$21.00</td></tr>
+        <tr><td>Dominio soccercagegroup.com <span class="nota">(cubre todo el año)</span></td><td class="num">US$10.46</td><td class="num">—</td></tr>
+        <tr><td>Páginas, entrada segura, recepción de correos y respaldos (Cloudflare)</td><td class="num">US$0</td><td class="num">US$0</td></tr>
+        <tr class="total"><td>Total</td><td class="num">US$90.26</td><td class="num">US$79.80</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="nota">El dominio vuelve a cobrarse una sola vez al cumplirse el año (US$10.46). El resto se paga cada mes.</p>
+  <div class="caja destacada-caja">
+    <h3>Presupuesto a aprobar: US$100 al mes</h3>
+    <p>Cubre el pago mensual de US$79.80 y deja unos US$20 al mes de margen para crecer sin volver a pedir aprobación: un segundo proyecto de base de datos (US$10), más correos (US$0.35 por cada 1,000 sobre los 3,000 incluidos), más horas de robot (US$0.09 por hora sobre las 10 incluidas) o un servidor con más memoria si la carga lo pide.</p>
+    <p class="nota">Precios en dólares, sin impuestos. No incluye costos por venta que existen con cualquier plataforma: comisión de Stripe por cobro y recargas de EasyPost con tarjeta (3.75 %; por transferencia ACH, sin comisión).</p>
+  </div>
+</section>
+
+<section>
+  <h2>A tener en cuenta</h2>
+  <div class="aviso">
+    <ul style="margin:0">
+      <li><strong>Propiedad:</strong> conviene que dominios, Cloudflare, Supabase, el servidor y Google Workspace queden en cuentas de la empresa, con tarjeta corporativa y renovación automática.</li>
+      <li><strong>Servidor virtual:</strong> es el único componente que requiere mantenimiento (actualizaciones del sistema y revisión de espacio), que se incluye en la operación de la plataforma.</li>
+      <li><strong>Entrada segura:</strong> el plan gratuito de Access guarda el registro de entradas 24 horas y cubre hasta 50 usuarios; por encima, cuesta US$7 por usuario al mes.</li>
+      <li><strong>Correo corporativo:</strong> Microsoft 365 Business Basic cuesta lo mismo (US$7 por persona) si se prefiere Outlook. El precio de Google Workspace en dólares proviene de fuentes secundarias (desde Colombia la página oficial muestra COP 29,200 por usuario al mes en plan anual).</li>
+    </ul>
+  </div>
+</section>
+
+<section>
+  <h2>Fases</h2>
+  <ol class="pasos">
+    <li><strong>Semana 1 · Dominio y entrada segura.</strong> Compra del dominio, direcciones command y forms, Cloudflare Access y cierre de la dirección actual.</li>
+    <li><strong>Semana 1 · Correo.</strong> Buzones de Google Workspace, remitente propio para las confirmaciones y direcciones de recepción.</li>
+    <li><strong>Semana 2 · Servidor.</strong> Servidor virtual activo con copias semanales; los primeros robots salen del portátil.</li>
+    <li><strong>Al lanzar la tienda de campamentos · Base central.</strong> Supabase Pro activo con copias diarias y respaldo en R2.</li>
+    <li><strong>Siguiente paso · Inventario dentro del Command Center.</strong> El panel de inventario pasa a ser un módulo, con roles (por ejemplo, Eduardo ve inventario y envíos).</li>
+    <li><strong>Gradual · Automatizaciones.</strong> Las tareas de Apps Script más cargadas pasan a Workers; los robots con sesión y los scripts en Python, al servidor.</li>
+  </ol>
+</section>
+
+<section>
+  <h2>Decisiones para la reunión</h2>
+  <div class="dos">
+    <div class="caja"><h3>1 · Presupuesto</h3><p>Aprobación de US$100 al mes; primer pago de US$90.26 con el dominio del año.</p></div>
+    <div class="caja"><h3>2 · Cuentas y tarjeta</h3><p>Cuenta de la empresa y tarjeta corporativa para los servicios.</p></div>
+    <div class="caja"><h3>3 · Accesos y roles</h3><p>Quiénes entran al Command Center y qué módulos ve cada uno.</p></div>
+    <div class="caja"><h3>4 · Buzones</h3><p>Quiénes reciben los 3 correos @soccercagegroup.com.</p></div>
+  </div>
+</section>
+
+<section>
+  <h2>Fuentes</h2>
+  <p class="nota">Consultadas el 8 de noviembre de 2026.</p>
+  <ul class="fuentes">
+    <li>Disponibilidad de dominios: registros RDAP oficiales de Verisign (.com).</li>
+    <li>Precios de Cloudflare Registrar: <a href="https://cfdomainpricing.com/">cfdomainpricing.com</a></li>
+    <li>Cloudflare Zero Trust / Access: <a href="https://www.cloudflare.com/plans/zero-trust-services/">cloudflare.com/plans/zero-trust-services</a></li>
+    <li>Cloudflare Workers y R2: <a href="https://developers.cloudflare.com/workers/platform/pricing/">developers.cloudflare.com/workers/platform/pricing</a></li>
+    <li>Cloudflare Browser Rendering: <a href="https://developers.cloudflare.com/browser-rendering/pricing/">developers.cloudflare.com/browser-rendering/pricing</a></li>
+    <li>Cloudflare Email Service y Email Routing: <a href="https://developers.cloudflare.com/email-service/platform/pricing/">developers.cloudflare.com/email-service/platform/pricing</a></li>
+    <li>Supabase: <a href="https://supabase.com/pricing">supabase.com/pricing</a></li>
+    <li>DigitalOcean: <a href="https://www.digitalocean.com/pricing/droplets">digitalocean.com/pricing/droplets</a></li>
+    <li>Google Workspace: <a href="https://workspace.google.com/pricing">workspace.google.com/pricing</a> y <a href="https://www.emailvendorselection.com/google-workspace-pricing/">emailvendorselection.com</a> (precio en dólares).</li>
+    <li>Microsoft 365: <a href="https://www.uctoday.com/unified-communications/microsoft-365-prices-rise-on-1-july-what-it-teams-need-to-do-before-the-deadline/">UC Today</a></li>
+    <li>Proyecto de inventarios: auditoría de producción del 2-10-2026 y acta de la reunión del 3-11-2026.</li>
+  </ul>
+</section>
+
+</main>
+</body>
+</html>
